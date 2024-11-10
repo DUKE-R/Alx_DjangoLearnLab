@@ -75,3 +75,18 @@ def admin_view(request):
     return render(request, 'admin_view.html')
 
 
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
+
+# Helper function to check if the user is a librarian
+def is_librarian(user):
+    return user.userprofile.role == 'Librarian'
+
+# Librarian view (only accessible by Librarian users)
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'librarian_view.html')
+
+
+
