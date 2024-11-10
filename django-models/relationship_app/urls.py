@@ -59,7 +59,7 @@ from . import views
 
 urlpatterns = [
     path('book/add/', views.add_book, name="add_book"),  # Add book view
-    path('book/edit/<int:pk>/', views.edit_book, name="edit_bok"),  # Edit book view with primary key (pk) for identifying the book
+    path('book/edit/<int:pk>/', views.edit_book, name="edit_book"),  # Edit book view with primary key (pk) for identifying the book
     path('book/delete/<int:pk>/', views.delete_book, name="delete_book"),  # Delete book view
 ]
 
