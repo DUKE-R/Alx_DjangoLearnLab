@@ -18,11 +18,11 @@ def books_in_library(library_name):
     except Library.DoesNotExist:
         return None
 
-# Retrieve the librarian for a specific library
+# Retrieve the librarian for a specific library using Librarian.objects.get()
 def librarian_for_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        # Accessing the OneToOneField directly to get the librarian
-        return library.librarian
+        # Using Librarian.objects.get to find the librarian associated with this library
+        return Librarian.objects.get(library=library)
     except (Library.DoesNotExist, Librarian.DoesNotExist):
         return None
