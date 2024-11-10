@@ -67,3 +67,11 @@ def librarian_view(request):
 def member_view(request):
     return render(request, 'member_view.html')
 
+
+from django.shortcuts import redirect
+
+@user_passes_test(is_admin, login_url='/not-authorized/')
+def admin_view(request):
+    return render(request, 'admin_view.html')
+
+
