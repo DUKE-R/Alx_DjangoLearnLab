@@ -143,6 +143,38 @@ def delete_book(request, pk):
         return redirect('book_list')  # Redirect to the book list page
     return render(request, 'delete_book.html', {'book': book})
 
+# In relationship_app/views.py
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+# Helper functions to check roles
+def is_admin(user):
+    return user.userprofile.role == 'Admin'
+
+def is_librarian(user):
+    return user.userprofile.role == 'Librarian'
+
+def is_member(user):
+    return user.userprofile.role == 'Member'
+
+# Admin view - only accessible to users with the 'Admin' role
+@login_required
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+# Librarian view - only accessible to users with the 'Librarian' role
+@login_required
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+# Member view - only accessible to users with the 'Member' role
+@login_required
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
 
 
 
