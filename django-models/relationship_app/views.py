@@ -90,3 +90,18 @@ def librarian_view(request):
 
 
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
+
+# Helper function to check if the user is a member
+def is_member(user):
+    return user.userprofile.role == 'Member'
+
+# Member view (only accessible by Member users)
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'member_view.html')
+
+
+
+
