@@ -10,8 +10,8 @@ class Book (models.Model):
         return f"{self.title} by {self.author}"
     
     class CustomUser(AbstractUser):
-    date_of_birth = models.DateField(null=True, blank=True)
-    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
+        date_of_birth = models.DateField(null=True, blank=True)
+        profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
 
     objects = CustomUserManager()
 
@@ -32,3 +32,19 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(username, email, date_of_birth, password, **extra_fields)
+
+from django.db import models
+
+class Document(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        permissions = [
+            ('can_view', 'Can view document'),
+            ('can_create', 'Can create document'),
+            ('can_edit', 'Can edit document'),
+            ('can_delete', 'Can delete document'),
+        ]
