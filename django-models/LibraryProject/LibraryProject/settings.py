@@ -158,3 +158,18 @@ CSP_DEFAULT_SRC = ("'self'",)  # Allow resources from the same origin
 CSP_SCRIPT_SRC = ("'self'", 'https://trusted-cdn.com')  # Allow inline and trusted CDN scripts
 CSP_STYLE_SRC = ("'self'", 'https://trusted-cdn.com')  # Allow styles from trusted sources
 CSP_IMG_SRC = ("'self'", 'data:')  # Allow images from the same origin and inline
+
+# Security settings for the LibraryProject
+
+# Prevent Cross-Site Scripting (XSS) attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+# Clickjacking protection
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent browsers from guessing MIME types
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Ensure CSRF and session cookies are transmitted over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
