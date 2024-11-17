@@ -189,4 +189,4 @@ if IS_PRODUCTION:
 else:
     DEBUG = True
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
