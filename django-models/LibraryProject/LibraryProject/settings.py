@@ -173,3 +173,18 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Ensure CSRF and session cookies are transmitted over HTTPS
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+import os
+
+# Determine environment: development or production
+IS_PRODUCTION = os.getenv('DJANGO_PRODUCTION', 'False') == 'True'
+
+if IS_PRODUCTION:
+    DEBUG = False  # Always False in production
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+else:
+    DEBUG = True
