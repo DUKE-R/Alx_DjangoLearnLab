@@ -2,6 +2,16 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from .models import Book
 
+import os
+import django
+
+# Specify the settings module
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
+
+# Set up Django
+django.setup()
+
+
 def setup_groups_permissions():
     # Create Groups
     editors_group, created = Group.objects.get_or_create(name='Editors')
