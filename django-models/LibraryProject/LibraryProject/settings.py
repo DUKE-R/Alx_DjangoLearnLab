@@ -147,7 +147,7 @@ SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for one year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-# Ensure HTTPS is used (for production)
+# Ensure HTTPS is used (for production) 1
 SECURE_SSL_REDIRECT = True
 
 INSTALLED_APPS += ['csp']
