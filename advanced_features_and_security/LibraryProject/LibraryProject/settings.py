@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -190,3 +191,16 @@ else:
     DEBUG = True
 
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+DEBUG = False
+
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'  # Prevents the site from being framed (clickjacking protection)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures session cookie is sent over HTTPS
+
+ALLOWED_HOSTS = ['yourdomain.com', 'subdomain.yourdomain.com']
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+

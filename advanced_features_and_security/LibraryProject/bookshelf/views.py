@@ -92,3 +92,8 @@ def delete_article(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     article.delete()
     # Redirect after deletion
+
+from .models import Book
+
+# Fetch books by title safely using ORM
+books = Book.objects.filter(title__icontains='python')
