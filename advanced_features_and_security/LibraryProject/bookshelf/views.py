@@ -97,3 +97,5 @@ from .models import Book
 
 # Fetch books by title safely using ORM
 books = Book.objects.filter(title__icontains='python')
+
+from .forms import ExampleForm
