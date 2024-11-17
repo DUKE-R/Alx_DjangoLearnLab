@@ -127,3 +127,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'  # Redirect after login
 LOGOUT_REDIRECT_URL = 'login'  # Redirect after logout
 
+import os
+
+# Security settings
+DEBUG = False  # Set to False in production
+ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']  # Add your domain names
+
+# Browser-side security protections
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# CSRF and session cookie settings
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Additional security headers (CSP is addressed later)
+SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for one year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Ensure HTTPS is used (for production)
+SECURE_SSL_REDIRECT = True
+
+INSTALLED_APPS += ['csp']
+
+MIDDLEWARE += ['csp.middleware.CSPMiddleware']
+
+CSP_DEFAULT_SRC = ("'self'",)  # Allow resources from the same origin
+CSP_SCRIPT_SRC = ("'self'", 'https://trusted-cdn.com')  # Allow inline and trusted CDN scripts
+CSP_STYLE_SRC = ("'self'", 'https://trusted-cdn.com')  # Allow styles from trusted sources
+CSP_IMG_SRC = ("'self'", 'data:')  # Allow images from the same origin and inline
