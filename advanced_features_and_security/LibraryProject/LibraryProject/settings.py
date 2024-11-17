@@ -221,3 +221,4 @@ SECURE_BROWSER_XSS_FILTER = True  # Enable XSS filtering to mitigate cross-site 
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent browsers from MIME-sniffing response
 X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking by blocking the site from being framed
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
