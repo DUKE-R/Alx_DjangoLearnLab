@@ -134,13 +134,13 @@ DEBUG = False  # Set to False in production
 ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']  # Add your domain names
 
 # Browser-side security protections
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
-SECURE_CONTENT_TYPE_NOSNIFF = True
+"SECURE_BROWSER_XSS_FILTER" = True
+"X_FRAME_OPTIONS" = 'DENY'
+"SECURE_CONTENT_TYPE_NOSNIFF" = True
 
 # CSRF and session cookie settings
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+"CSRF_COOKIE_SECURE" = True
+"SESSION_COOKIE_SECURE" = True
 
 # Additional security headers (CSP is addressed later)
 SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for one year
