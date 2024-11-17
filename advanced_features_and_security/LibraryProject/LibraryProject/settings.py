@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookshelf.apps.BookshelfConfig',
-    'relationship_app.apps.RelationshipAppConfig',
+    'bookshelf.apps.BookshelfConfig'
+    'relationship_app.apps.RelationshipAppConfig'
 ]
 
 MIDDLEWARE = [
@@ -127,5 +127,89 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'  # Redirect after login
 LOGOUT_REDIRECT_URL = 'login'  # Redirect after logout
 
-AUTH_USER_MODEL = 'bookshelf.CustomUser'
+import os
 
+# Security settings
+DEBUG = False  # Set to False in production
+ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']  # Add your domain names
+
+# Browser-side security protections
+"SECURE_BROWSER_XSS_FILTER" = True
+"X_FRAME_OPTIONS" = 'DENY'
+"SECURE_CONTENT_TYPE_NOSNIFF" = True
+
+# CSRF and session cookie settings
+"CSRF_COOKIE_SECURE" = True
+"SESSION_COOKIE_SECURE" = True
+
+# Additional security headers (CSP is addressed later)
+SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for one year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Ensure HTTPS is used (for production) 1
+SECURE_SSL_REDIRECT = True
+
+INSTALLED_APPS += ['csp']
+
+MIDDLEWARE += ['csp.middleware.CSPMiddleware']
+
+CSP_DEFAULT_SRC = ("'self'",)  # Allow resources from the same origin
+CSP_SCRIPT_SRC = ("'self'", 'https://trusted-cdn.com')  # Allow inline and trusted CDN scripts
+CSP_STYLE_SRC = ("'self'", 'https://trusted-cdn.com')  # Allow styles from trusted sources
+CSP_IMG_SRC = ("'self'", 'data:')  # Allow images from the same origin and inline
+
+# Security settings for the LibraryProject
+
+# Prevent Cross-Site Scripting (XSS) attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+# Clickjacking protection
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent browsers from guessing MIME types
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Ensure CSRF and session cookies are transmitted over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+import os
+
+# Determine environment: development or production
+IS_PRODUCTION = os.getenv('DJANGO_PRODUCTION', 'False') == 'True'
+
+if IS_PRODUCTION:
+    DEBUG = False  # Always False in production
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+else:
+    DEBUG = True
+
+
+# Disable debug mode in production
+DEBUG = False
+
+# Add security middleware settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# Enforce HTTPS for cookies
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# CSP (Content Security Policy)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "https://trusted-styles.example.com")
+CSP_SCRIPT_SRC = ("'self'", "https://trusted-scripts.example.com")
+
+# Enable browser protections
+SECURE_BROWSER_XSS_FILTER = True  # Prevent XSS attacks
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Avoid MIME type sniffing
+
+# CSRF Protection
+CSRF_COOKIE_SECURE = True  # Ensure CSRF cookie is sent over HTTPS
