@@ -13,7 +13,7 @@ class BookList(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    class BookViewSet(ModelViewSet):
+    class BookViewSet(viewsets.ModelViewSet):
       """
       A viewset that provides the standard actions
       for the Book model (CRUD operations).
