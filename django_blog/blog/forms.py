@@ -11,9 +11,19 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
     class PostForm(forms.ModelForm):
-      class Meta:
+       tags = forms.CharField(required=False, help_text="Add tags separated by commas")
+       class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'tags']
+
+        def save(self, commit=True):
+         instance = super().save(commit=False)
+         tag_names = [tag.strip() for tag in self.cleaned_data['tags'].split(',') if tag]
+         if commit:
+            instance.save()
+            instance.tags.set([Tag.objects.get_or_create(name=tag)[0] for tag in tag_names])
+         return instance
+        
 from .models import Comment
 
 class CommentForm(forms.ModelForm):
