@@ -16,7 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
         model = Post
         fields = ['title', 'content', 'tags']
         widgets = {
-            'tags': TagWidget(attrs={'class': 'form-control', 'placeholder': 'Add tags separated by commas'}),
+            'tags': TagWidget()
         }
 
         def save(self, commit=True):
