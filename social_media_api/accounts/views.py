@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from .models import CustomUser
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
-
+from .serializers import FollowSerializer
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -33,24 +33,29 @@ class LoginView(APIView):
 
 from .models import CustomUser
 
-class FollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = FollowSerializer
 
-    def post(self, request, user_id):
-        try:
-            user_to_follow = CustomUser.objects.get(id=user_id)
-            request.user.following.add(user_to_follow)
-            return Response({"message": "User followed successfully"}, status=status.HTTP_200_OK)
-        except CustomUser.DoesNotExist:
-            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    def post(self, request, user_id, *args, **kwargs):
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
+        request.user.following.add(user_to_follow)
+        return Response({"message": f"You are now following {user_to_follow.username}"}, status=200)
 
-class UnfollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
-    def post(self, request, user_id):
-        try:
-            user_to_unfollow = CustomUser.objects.get(id=user_id)
-            request.user.following.remove(user_to_unfollow)
-            return Response({"message": "User unfollowed successfully"}, status=status.HTTP_200_OK)
-        except CustomUser.DoesNotExist:
-            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+from .models import CustomUser
+# Unfollow a user
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = FollowSerializer
+
+    def post(self, request, user_id, *args, **kwargs):
+        user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
+        request.user.following.remove(user_to_unfollow)
+        return Response({"message": f"You have unfollowed {user_to_unfollow.username}"}, status=200)
