@@ -52,7 +52,7 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk, *args, **kwargs):
-        post = generics.get_object_or_404(Post, id=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         user = request.user
 
         if Like.objects.filter(user=user, post=post).exists():
