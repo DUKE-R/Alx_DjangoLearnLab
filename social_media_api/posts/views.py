@@ -52,13 +52,13 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, id=pk)
+        post = generics.get_object_or_404(Post, id=pk)
         user = request.user
 
         if Like.objects.filter(user=user, post=post).exists():
             return Response({"message": "You already liked this post"}, status=status.HTTP_400_BAD_REQUEST)
 
-        like = Like.objects.create(user=user, post=post)
+        like = Like.objects.get_or_create(user=request.user, post=post)
 
         # Create a notification for the post owner
         if post.author != user:
